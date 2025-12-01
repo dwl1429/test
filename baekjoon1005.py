@@ -1,39 +1,37 @@
-def hasonemom(a):
+import sys
+
+def hasonemom(a): #부모 노드가 하나인지 확인
     return(len(mother_list[a]) == 1)
-def hasonechd(a):
+def hasonechd(a): #자식 노드가 하나인지 확인
     return(len(children_list[a]) == 1)
 
-
-
-T = int(input())
-rlist = []
-inpi = 0
+T = int(sys.stdin.readline().rstrip()) #테스트 케이스 입력
+rlist = [] #결과 입력
 
 for i in range(T):
-    inp = (input()).split(' ')
-    nodeN , edgeN = (tuple(list(map(int, inp))))
-    inp = (input()).split(' ')
+    inp = (sys.stdin.readline().rstrip()).split(' ')
+    nodeN , edgeN = (tuple(list(map(int, inp)))) # 노드랑 엣지 수 받기
+    inp = (sys.stdin.readline().rstrip()).split(' ')
     Time_list = [0]
     for i in inp:
-        Time_list.append(int(i))
+        Time_list.append(int(i)) # 각 노드의 고유 시간 리스트 만들기 모든 시간은 0 이상이므로 -1로 나중에 노드 삭제 구현
     children_list = []
     mother_list = []
     for i2 in range(nodeN+1):
         children_list.append(set())
         mother_list.append(set())
     for i3 in range(edgeN):
-        inp = (input()).split(' ')
+        inp = (sys.stdin.readline().rstrip()).split(' ')
         children_list[int(inp[1])].add(int(inp[0]))
         mother_list[int(inp[0])].add(int(inp[1]))
     for i2 in range(nodeN):
-        i2+= 1
+        i2 += 1 
         if children_list[i2] == set():
             children_list[i2] = set([0])
             mother_list[0].add(i2)
-    inp = (input())
-    inpi += 3+edgeN
-    lastW = int(inp)j
-    Max_time = Time_list[lastW]
+    inp = (sys.stdin.readline().rstrip())
+    lastW = int(inp) # 마지막 목표
+    Max_time = 0 
     done = False
     while not done:
         k = 0
@@ -112,13 +110,6 @@ for i in range(T):
                             mother_list[i2].discard(i7)
                             children_list[i7].discard(i2)
                             k += 1
-                    
-
-        if hasonechd(lastW):
-            lc = tuple(children_list[lastW])[0]
-            if lc == 0:
-                done = True
-                break
         if k == 0:
             done = True
             break
@@ -129,11 +120,6 @@ for i in range(T):
         else:
             if hasonechd(lc):
                 Max_time = Time_list[lastW] + Time_list[lc]
-            else:
-                Max_time = -1
-    else:
-        Max_time = -1
     rlist.append(Max_time)
-
 for r in rlist:
     print(r)
